@@ -3,325 +3,172 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Todo · r1 Creation</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<title>Todo</title>
 <style>
-/* ──────────────────────────────────────────────────────────────────────────
-   Todo — r1 Creation
-   Gestaltet im Geist von Dieter Rams / der BRAUN-Formensprache.
-   "Weniger, aber besser." — Funktional · Ehrlich · Langlebig.
-   ────────────────────────────────────────────────────────────────────────── */
 * { margin: 0; padding: 0; box-sizing: border-box; }
-
-:root {
-  --beton: #D7D4CC;        /* Page / Beton */
-  --ms: 'IBM Plex Mono', ui-monospace, monospace;
-  --sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  /* Bewegungs-Tokens */
-  --tap: 120ms;
-  --trans: 200ms;
-  --fade: 320ms;
-  --ease: cubic-bezier(.4, 0, .2, 1);
-  --ease-in: cubic-bezier(.2, .7, .2, 1);
-}
-
 html, body {
   width: 100%; min-height: 100vh;
-  background: var(--beton);
-  color: #1B1A17;
-  font-family: var(--sans);
-  -webkit-font-smoothing: antialiased;
+  background: #000; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   -webkit-user-select: none; user-select: none;
 }
-::selection { background: #D75A1E; color: #fff; }
-
 body {
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
-  padding: 36px 20px;
+  padding: 20px;
 }
 
-#stage { width: 100%; max-width: 520px; }
-
-/* ── Masthead ─────────────────────────────────────────────────────────── */
-#masthead {
-  display: flex; justify-content: space-between; align-items: baseline;
-  font-family: var(--ms); font-size: 11px; letter-spacing: .09em;
-  text-transform: uppercase; color: #7C786F;
-  border-bottom: 1px solid #C2BEB5; padding-bottom: 12px; margin-bottom: 30px;
-}
-#masthead .accent { color: #D75A1E; }
-
-/* ── Device row: screen + controls ────────────────────────────────────── */
-#device-row {
-  display: flex; align-items: center; justify-content: center;
-  gap: 12px;
-}
-
-/* The r1 screen — themeable via data-theme.  Default: Papier */
+/* The R1-sized device frame (240x282). Faithfully recreated. */
 #device {
-  --bg:  #E7E4DE; --sf:  #F0EEE9; --fg:  #1B1A17;
-  --mut: #8A867E; --line:#C7C3BA; --ac:  #D75A1E; --acf:#FFFFFF;
   width: 240px; height: 282px;
-  background: var(--bg); color: var(--fg);
+  background: #0e0e10; color: #fff;
   display: flex; flex-direction: column;
   position: relative; overflow: hidden;
-  border-radius: 6px;                       /* radius 6 · screen */
-  border: 1px solid rgba(0,0,0,.18);
-  box-shadow: 0 2px 0 rgba(0,0,0,.08), 0 14px 40px rgba(27,26,23,.16);
-  transition: background var(--trans) var(--ease), color var(--trans) var(--ease);
-}
-#device[data-theme="anthrazit"] {
-  --bg:#232220; --sf:#2E2C29; --fg:#ECEAE4; --mut:#8F8B83; --line:#403E39; --ac:#E2641F; --acf:#171108;
-}
-#device[data-theme="signal"] {
-  --bg:#161513; --sf:#201F1B; --fg:#F2F0EA; --mut:#9A958C; --line:#34322D; --ac:#F26A1B; --acf:#161513;
+  border-radius: 14px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6),
+              0 0 0 6px #1a1a1c,
+              0 0 0 7px rgba(254,80,0,0.2);
 }
 
-/* ── Header (Kopf · 40) ───────────────────────────────────────────────── */
 #header {
-  height: 38px; flex-shrink: 0;
-  padding: 0 14px;
+  padding: 7px 12px 6px;
   display: flex; align-items: center; justify-content: space-between;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid rgba(254,80,0,0.25);
+  flex-shrink: 0;
 }
 #list-name {
-  font-family: var(--ms); font-size: 11px; font-weight: 600;
-  letter-spacing: .14em; text-transform: uppercase; color: var(--fg);
-  min-width: 56px; cursor: pointer;
+  font-size: 11px; font-weight: 700; color: #FE5000;
+  letter-spacing: 2px; text-transform: uppercase;
+  min-width: 56px;
+  cursor: pointer;
 }
 #dots { display: flex; gap: 5px; align-items: center; }
 .dot {
-  width: 6px; height: 6px; border-radius: 1px;       /* square · 2px control */
-  background: var(--line);
-  transition: background var(--tap) var(--ease), transform var(--tap) var(--ease);
+  width: 6px; height: 6px; border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  transition: background 0.2s, transform 0.2s;
   cursor: pointer;
 }
-.dot.active { background: var(--ac); transform: scale(1.25); }
-#item-count {
-  font-family: var(--ms); font-size: 10px; letter-spacing: .08em;
-  text-transform: uppercase; color: var(--mut);
-  min-width: 44px; text-align: right;
-}
+.dot.active { background: #FE5000; transform: scale(1.2); }
+#item-count { font-size: 10px; color: rgba(255,255,255,0.3); min-width: 36px; text-align: right; }
 
-/* ── Status line ──────────────────────────────────────────────────────── */
 #status {
-  height: 20px; flex-shrink: 0;
-  padding: 0 14px;
+  padding: 0 12px; font-size: 10px; color: rgba(255,255,255,0.35);
+  text-align: center; flex-shrink: 0; height: 22px;
   display: flex; align-items: center; justify-content: center;
-  font-family: var(--ms); font-size: 10px; letter-spacing: .04em;
-  color: var(--mut); text-align: center;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  transition: color var(--trans) var(--ease);
 }
-#status.listening { color: var(--ac); animation: blink .8s ease infinite; }
-#status.cycling   { color: var(--fg); }
-@keyframes blink { 0%,49%{opacity:1} 50%,100%{opacity:.35} }
+#status.listening { color: #FE5000; animation: pulse 0.8s ease infinite; }
+#status.cycling { color: rgba(255,255,255,0.6); }
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
 
-/* ── List ─────────────────────────────────────────────────────────────── */
 #list-container { flex: 1; overflow: hidden; position: relative; }
-#list {
-  position: absolute; top: 0; left: 0; right: 0;
-  transition: transform var(--tap) var(--ease);
-}
+#list { position: absolute; top: 0; left: 0; right: 0; transition: transform 0.12s ease; }
 
-.item {
-  display: flex; align-items: center; gap: 10px;
-  height: 32px; padding: 0 14px 0 12px;
-  border-bottom: 1px solid var(--line);
-  transition: background var(--tap) var(--ease), color var(--tap) var(--ease);
-}
-.item.selected { background: var(--ac); color: var(--acf); }
+.item { display: flex; align-items: center; padding: 0 12px 0 10px; height: 32px; gap: 10px; }
+.item.checked { opacity: 0.4; }
 
 .checkbox {
-  width: 16px; height: 16px; flex-shrink: 0;
-  border: 1.5px solid var(--fg); border-radius: 2px;   /* radius 2 · control */
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; position: relative;
-  transition: background var(--tap) var(--ease), border-color var(--tap) var(--ease);
+  width: 18px; height: 18px; border: 2px solid #FE5000; border-radius: 3px;
+  flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: background 0.12s; position: relative;
 }
-.item.selected .checkbox { border-color: var(--acf); }
+.item.checked .checkbox { background: #FE5000; }
 .checkbox::after {
-  content: ''; display: none;
-  width: 9px; height: 5px;
-  border-left: 2px solid var(--bg); border-bottom: 2px solid var(--bg);
-  transform: rotate(-45deg) translate(0,-1px);
+  content: ''; display: none; width: 10px; height: 6px;
+  border-left: 2px solid #0e0e10; border-bottom: 2px solid #0e0e10;
+  transform: rotate(-45deg) translateY(-1px);
 }
-.item.checked .checkbox { background: var(--ac); border-color: var(--ac); }
 .item.checked .checkbox::after { display: block; }
-.item.checked.selected .checkbox { background: var(--acf); border-color: var(--acf); }
-.item.checked.selected .checkbox::after { border-color: var(--ac); }
-
 .item-text {
-  font-family: var(--sans); font-size: 13px; line-height: 1.2;
-  flex: 1; cursor: pointer;
+  font-size: 13px; color: #fff; flex: 1;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  cursor: pointer;
 }
-.item.checked .item-text { text-decoration: line-through; color: var(--mut); }
-.item.checked.selected .item-text { color: var(--acf); opacity: .7; }
+.item.checked .item-text { text-decoration: line-through; color: rgba(255,255,255,0.4); }
 
-/* Empty state */
-.empty-state {
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  height: 100%; gap: 14px; padding: 0 20px;
-  animation: fade var(--fade) var(--ease-in);
-}
-.empty-mark { width: 14px; height: 14px; border: 1.5px solid var(--mut); border-radius: 2px; }
-.empty-text {
-  font-family: var(--ms); font-size: 10px; letter-spacing: .06em;
-  color: var(--mut); text-align: center; line-height: 1.7; text-transform: uppercase;
-}
-@keyframes fade { from{opacity:0} to{opacity:1} }
+.empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 220px; gap: 10px; }
+.empty-text { font-size: 11px; color: rgba(255,255,255,0.2); text-align: center; line-height: 1.6; }
 
-/* Scrollbar */
-#scrollbar {
-  position: absolute; right: 3px; top: 4px; bottom: 4px; width: 3px;
-  background: var(--line); border-radius: 1px; display: none;
-}
-#scroll-thumb {
-  position: absolute; left: 0; width: 3px;
-  background: var(--ac); border-radius: 1px;
-  transition: top var(--tap) var(--ease);
-}
+#scrollbar { position: absolute; right: 3px; top: 4px; bottom: 4px; width: 3px; background: rgba(255,255,255,0.07); border-radius: 2px; display: none; }
+#scroll-thumb { position: absolute; left: 0; width: 3px; background: #FE5000; border-radius: 2px; opacity: 0.7; }
 
-/* ── Edit screen ──────────────────────────────────────────────────────── */
+/* Edit screen */
 #edit-screen {
-  display: none; position: absolute; inset: 0; z-index: 150;
-  background: var(--bg); flex-direction: column; padding: 16px;
-  animation: fade var(--fade) var(--ease-in);
+  display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background: #0e0e10; flex-direction: column; padding: 14px; z-index: 150;
 }
 #edit-screen.visible { display: flex; }
 #edit-header {
-  font-family: var(--ms); font-size: 10px; font-weight: 600;
-  letter-spacing: .14em; text-transform: uppercase; color: var(--mut);
-  margin-bottom: 12px;
+  font-size: 11px; font-weight: 700; color: #FE5000;
+  text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; padding: 2px 0;
 }
 #edit-input {
-  flex: 1;
-  background: var(--sf); color: var(--fg);
-  border: 1px solid var(--line); border-radius: 2px;
-  font-family: var(--sans); font-size: 14px; line-height: 1.5;
-  padding: 10px; resize: none; outline: none;
-  transition: border-color var(--tap) var(--ease);
+  flex: 1; background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.15); border-radius: 6px;
+  color: #fff; font-size: 13px; font-family: inherit;
+  padding: 8px; resize: none; outline: none; line-height: 1.5;
 }
-#edit-input:focus { border-color: var(--ac); }
-#edit-actions { display: flex; gap: 8px; margin-top: 12px; }
+#edit-input:focus { border-color: #FE5000; }
+#edit-actions { display: flex; gap: 8px; margin-top: 10px; }
 #edit-actions button {
-  flex: 1; min-height: 38px; border: none; border-radius: 2px;
-  font-family: var(--sans); font-size: 13px; font-weight: 700;
-  cursor: pointer; -webkit-tap-highlight-color: transparent;
-  transition: opacity var(--tap) var(--ease);
+  flex: 1; min-height: 36px; border: none; border-radius: 6px;
+  font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
-#edit-actions button:active { opacity: .7; }
-#edit-cancel { background: transparent; color: var(--fg); border: 1px solid var(--fg); font-weight: 500; }
-#edit-save   { background: var(--ac); color: var(--acf); }
+#edit-actions button:active { opacity: 0.7; }
+#edit-cancel { background: rgba(255,255,255,0.1); color: #fff; }
+#edit-save { background: #FE5000; color: #0e0e10; }
 
-/* ── Hardware controls (Scrollrad + Taste) ────────────────────────────── */
-#controls { display: flex; flex-direction: column; justify-content: center; gap: 16px; }
-#wheel {
-  width: 11px; height: 116px; border-radius: 6px;
-  background: repeating-linear-gradient(#9A968D 0 2px, #C2BEB5 2px 4px);
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,.12);
-  cursor: ns-resize;
-}
-#btn {
-  width: 11px; height: 46px; border-radius: 6px;
-  background: #D75A1E;
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,.12);
-  cursor: pointer;
-  transition: filter var(--tap) var(--ease);
-}
-#btn:active, #btn.held { filter: brightness(.82); }
-
-/* ── Caption + help ───────────────────────────────────────────────────── */
-#caption {
-  font-family: var(--ms); font-size: 11px; color: #605D55;
-  text-align: center; margin-top: 22px;
-}
-#caption .ac { color: #D75A1E; }
-
+/* Hilfe-Text unter dem Gerät */
 #help {
-  margin: 30px auto 0; max-width: 380px;
-  border-top: 1px solid #C2BEB5; padding-top: 16px;
-  font-family: var(--ms); font-size: 10px; line-height: 1.9;
-  letter-spacing: .03em; color: #7C786F; text-transform: uppercase;
+  margin-top: 18px; max-width: 320px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 11px; color: rgba(255,255,255,0.45);
+  line-height: 1.6; text-align: center;
 }
-#help .row { display: flex; justify-content: space-between; gap: 16px; }
-#help .row span:last-child { color: #3A382F; text-align: right; }
-#help .k { color: #D75A1E; }
-
-#footer {
-  margin-top: 28px;
-  display: flex; justify-content: space-between;
-  font-family: var(--ms); font-size: 10px; letter-spacing: .06em;
-  text-transform: uppercase; color: #9A968D;
-  border-top: 2px solid #1B1A17; padding-top: 12px;
+#help b { color: #FE5000; font-weight: 600; }
+#help kbd {
+  display: inline-block; padding: 1px 6px; border-radius: 4px;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+  font-family: ui-monospace, monospace; font-size: 10px; color: #fff;
 }
 </style>
 </head>
 <body>
 
-<div id="stage">
-
-  <div id="masthead">
-    <span>Todo</span>
-    <span>r1&nbsp;Creation&nbsp;·&nbsp;<span class="accent">Papier</span></span>
-    <span>v2.0</span>
+<div id="device">
+  <div id="header">
+    <div id="list-name">Home</div>
+    <div id="dots">
+      <div class="dot active" data-i="0"></div>
+      <div class="dot" data-i="1"></div>
+      <div class="dot" data-i="2"></div>
+    </div>
+    <div id="item-count"></div>
+  </div>
+  <div id="status">Leertaste halten zum Aufnehmen</div>
+  <div id="list-container">
+    <div id="list"></div>
+    <div id="scrollbar"><div id="scroll-thumb"></div></div>
   </div>
 
-  <div id="device-row">
-    <div id="device" data-theme="papier">
-      <div id="header">
-        <div id="list-name">Home</div>
-        <div id="dots">
-          <div class="dot active" data-i="0"></div>
-          <div class="dot" data-i="1"></div>
-          <div class="dot" data-i="2"></div>
-        </div>
-        <div id="item-count"></div>
-      </div>
-      <div id="status">Halten ▸ sprechen · Enter ▸ abhaken</div>
-      <div id="list-container">
-        <div id="list"></div>
-        <div id="scrollbar"><div id="scroll-thumb"></div></div>
-      </div>
-
-      <div id="edit-screen">
-        <div id="edit-header">Eintrag bearbeiten</div>
-        <textarea id="edit-input"></textarea>
-        <div id="edit-actions">
-          <button id="edit-cancel">Abbrechen</button>
-          <button id="edit-save">Speichern</button>
-        </div>
-      </div>
-    </div>
-
-    <div id="controls">
-      <div id="wheel" title="Scrollrad — Auswahl bewegen"></div>
-      <div id="btn" title="Taste — halten zum Sprechen, tippen zum Abhaken"></div>
+  <div id="edit-screen">
+    <div id="edit-header">Eintrag bearbeiten</div>
+    <textarea id="edit-input"></textarea>
+    <div id="edit-actions">
+      <button id="edit-cancel">Abbrechen</button>
+      <button id="edit-save">Speichern</button>
     </div>
   </div>
+</div>
 
-  <div id="caption">
-    <span class="ac">RAD</span>&nbsp;▸&nbsp;auswahl&nbsp;&nbsp;·&nbsp;&nbsp;<span class="ac">TASTE</span>&nbsp;▸&nbsp;abhaken / sprechen
-  </div>
-
-  <div id="help">
-    <div class="row"><span><span class="k">Rad</span> / ↑ ↓</span><span>Auswahl bewegen</span></div>
-    <div class="row"><span><span class="k">Leertaste</span> halten</span><span>Sprechen ▸ Eintrag</span></div>
-    <div class="row"><span><span class="k">Enter</span></span><span>Auswahl abhaken</span></div>
-    <div class="row"><span><span class="k">N</span> · Doppelklick</span><span>Neu / Bearbeiten</span></div>
-    <div class="row"><span><span class="k">Entf</span> · langer Druck</span><span>Löschen</span></div>
-    <div class="row"><span><span class="k">Esc</span> · Listenname</span><span>Liste wechseln</span></div>
-    <div class="row"><span><span class="k">T</span></span><span>Thema · Papier / Anthrazit / Signal</span></div>
-  </div>
-
-  <div id="footer">
-    <span>Im Geist von Dieter Rams</span>
-    <span>Weniger, aber besser</span>
-  </div>
-
+<div id="help">
+  <kbd>Leertaste</kbd> halten = Sprache &nbsp;·&nbsp;
+  <kbd>Enter</kbd> = neuer Eintrag &nbsp;·&nbsp;
+  <kbd>Esc</kbd> / Klick auf den Listennamen = Liste wechseln<br>
+  <kbd>↑</kbd>/<kbd>↓</kbd> = scrollen &nbsp;·&nbsp;
+  Doppelklick = bearbeiten &nbsp;·&nbsp;
+  langer Druck = löschen
 </div>
 
 <script>
@@ -334,14 +181,10 @@ var LISTS = [
   { key: 'aidev', label: 'AI Dev' },
   { key: 'rnd',   label: 'Random' }
 ];
-var THEMES = ['papier', 'anthrazit', 'signal'];
 
 var currentList = 0;
 var scrollOffset = 0;
-var selectedIndex = 0;
 var isListening = false;
-
-var $device = document.getElementById('device');
 
 // ── Storage ──────────────────────────────────────────────────────────────
 function storageKey(idx) { return 'r1_todo_' + LISTS[idx].key; }
@@ -358,47 +201,6 @@ function purgeExpired(items) {
   return items.filter(function(i) { return !i.checked || (now - i.checkedAt) < REMOVE_AFTER_MS; });
 }
 
-// ── Theme ────────────────────────────────────────────────────────────────
-function loadTheme() {
-  try { return localStorage.getItem('r1_todo_theme') || 'papier'; } catch(e) { return 'papier'; }
-}
-function applyTheme(name) {
-  if (THEMES.indexOf(name) < 0) name = 'papier';
-  $device.setAttribute('data-theme', name);
-  try { localStorage.setItem('r1_todo_theme', name); } catch(e) {}
-  var labelEl = document.querySelector('#masthead .accent');
-  if (labelEl) labelEl.textContent = name.charAt(0).toUpperCase() + name.slice(1);
-}
-function cycleTheme() {
-  var cur = $device.getAttribute('data-theme');
-  var next = THEMES[(THEMES.indexOf(cur) + 1) % THEMES.length];
-  applyTheme(next);
-  setStatus(next.toUpperCase(), 'cycling');
-  resetStatus();
-}
-
-// ── Selection / viewport ──────────────────────────────────────────────────
-function clampSelection(len) {
-  if (len === 0) { selectedIndex = -1; return; }
-  if (selectedIndex < 0) selectedIndex = 0;
-  if (selectedIndex > len - 1) selectedIndex = len - 1;
-}
-function ensureVisible(len) {
-  var maxScroll = Math.max(0, len - VISIBLE_ITEMS);
-  if (selectedIndex >= 0) {
-    if (selectedIndex < scrollOffset) scrollOffset = selectedIndex;
-    else if (selectedIndex > scrollOffset + VISIBLE_ITEMS - 1) scrollOffset = selectedIndex - VISIBLE_ITEMS + 1;
-  }
-  scrollOffset = Math.min(Math.max(0, scrollOffset), maxScroll);
-}
-function moveSelection(delta) {
-  var items = loadItems(currentList);
-  if (items.length === 0) return;
-  clampSelection(items.length);
-  selectedIndex = Math.min(Math.max(0, selectedIndex + delta), items.length - 1);
-  render();
-}
-
 // ── Render ───────────────────────────────────────────────────────────────
 function render() {
   var items = loadItems(currentList);
@@ -411,28 +213,25 @@ function render() {
     d.className = 'dot' + (parseInt(d.dataset.i) === currentList ? ' active' : '');
   });
 
-  clampSelection(items.length);
-
   var unchecked = items.filter(function(i) { return !i.checked; }).length;
   countEl.textContent = unchecked > 0 ? unchecked + ' offen' : (items.length > 0 ? 'fertig' : '');
 
   if (items.length === 0) {
-    list.innerHTML = '<div class="empty-state"><div class="empty-mark"></div>'
-      + '<div class="empty-text">Nichts hier<br>N ▸ neuer Eintrag</div></div>';
-    list.style.transform = 'translateY(0)';
+    list.innerHTML = '<div class="empty-state">'
+      + '<div class="empty-text">Noch nichts hier<br>Enter zum Hinzufügen</div></div>';
     scrollbar.style.display = 'none';
     return;
   }
 
-  ensureVisible(items.length);
+  var maxScroll = Math.max(0, items.length - VISIBLE_ITEMS);
+  scrollOffset = Math.min(Math.max(0, scrollOffset), maxScroll);
 
   if (items.length > VISIBLE_ITEMS) {
     scrollbar.style.display = 'block';
     var barH = ITEM_HEIGHT * VISIBLE_ITEMS;
     scrollbar.style.height = barH + 'px';
     var thumbH = Math.max(20, Math.round((VISIBLE_ITEMS / items.length) * barH));
-    var maxScroll = Math.max(1, items.length - VISIBLE_ITEMS);
-    var thumbTop = Math.round((scrollOffset / maxScroll) * (barH - thumbH));
+    var thumbTop = Math.round((scrollOffset / Math.max(1, items.length - 1)) * (barH - thumbH));
     var thumb = document.getElementById('scroll-thumb');
     thumb.style.height = thumbH + 'px';
     thumb.style.top = thumbTop + 'px';
@@ -444,11 +243,8 @@ function render() {
   for (var i = 0; i < items.length; i++) {
     var item = items[i];
     var div = document.createElement('div');
-    div.className = 'item'
-      + (item.checked ? ' checked' : '')
-      + (i === selectedIndex ? ' selected' : '');
+    div.className = 'item' + (item.checked ? ' checked' : '');
     div.dataset.id = item.id;
-    div.dataset.idx = i;
     var cb = document.createElement('div');
     cb.className = 'checkbox'; cb.dataset.id = item.id;
     var txt = document.createElement('div');
@@ -465,28 +261,35 @@ function render() {
   });
 
   list.querySelectorAll('.item').forEach(function(row) {
-    var pressTimer = null, longFired = false, lastTap = 0, singleTimer = null;
-    var idx = parseInt(row.dataset.idx);
+    var pressTimer = null;
+    var longFired = false;
+    var lastTap = 0;
+    var singleTimer = null;
 
     row.addEventListener('pointerdown', function(e) {
       if (e.target.closest('.checkbox')) return;
       longFired = false;
-      pressTimer = setTimeout(function() { longFired = true; deleteItem(row.dataset.id); }, 600);
+      pressTimer = setTimeout(function() {
+        longFired = true;
+        deleteItem(row.dataset.id);
+      }, 600);
     });
+
     row.addEventListener('pointerup', function(e) {
       if (e.target.closest('.checkbox')) return;
       clearTimeout(pressTimer);
       if (longFired) return;
       var now = Date.now();
-      if (now - lastTap < 320) {            // double tap → edit
-        clearTimeout(singleTimer); lastTap = 0;
-        editItem(row.dataset.id); return;
+      if (now - lastTap < 320) {
+        clearTimeout(singleTimer);
+        lastTap = 0;
+        editItem(row.dataset.id);
+        return;
       }
       lastTap = now;
-      singleTimer = setTimeout(function() {  // single tap → select
-        lastTap = 0; selectedIndex = idx; render();
-      }, 320);
+      singleTimer = setTimeout(function() { lastTap = 0; }, 320);
     });
+
     row.addEventListener('pointerleave', function() { clearTimeout(pressTimer); });
     row.addEventListener('pointercancel', function() { clearTimeout(pressTimer); });
   });
@@ -498,32 +301,22 @@ function toggleItem(id) {
     if (items[i].id === id) {
       items[i].checked = !items[i].checked;
       items[i].checkedAt = items[i].checked ? Date.now() : null;
-      selectedIndex = i;
       break;
     }
   }
   saveItems(items, currentList);
   render();
 }
-function toggleSelected() {
-  var items = loadItems(currentList);
-  if (selectedIndex >= 0 && selectedIndex < items.length) toggleItem(items[selectedIndex].id);
-}
 
 function deleteItem(id) {
   var items = loadItems(currentList).filter(function(i) { return i.id !== id; });
   saveItems(items, currentList);
-  if (selectedIndex > items.length - 1) selectedIndex = items.length - 1;
   render();
   setStatus('Gelöscht', '');
   resetStatus();
 }
-function deleteSelected() {
-  var items = loadItems(currentList);
-  if (selectedIndex >= 0 && selectedIndex < items.length) deleteItem(items[selectedIndex].id);
-}
 
-// ── Edit ──────────────────────────────────────────────────────────────────
+// ── Edit item ────────────────────────────────────────────────────────────
 var editingId = null;
 var $editScreen = document.getElementById('edit-screen');
 var $editInput = document.getElementById('edit-input');
@@ -532,7 +325,7 @@ function editItem(id) {
   var items = loadItems(currentList);
   for (var i = 0; i < items.length; i++) {
     if (items[i].id === id) {
-      editingId = id; selectedIndex = i;
+      editingId = id;
       $editInput.value = items[i].text;
       $editScreen.classList.add('visible');
       $editInput.focus();
@@ -540,16 +333,14 @@ function editItem(id) {
     }
   }
 }
-function editSelected() {
-  var items = loadItems(currentList);
-  if (selectedIndex >= 0 && selectedIndex < items.length) editItem(items[selectedIndex].id);
-}
+
 function openNewItem() {
   editingId = '__new__';
   $editInput.value = '';
   $editScreen.classList.add('visible');
   setTimeout(function() { $editInput.focus(); }, 0);
 }
+
 function closeEdit() {
   editingId = null;
   $editScreen.classList.remove('visible');
@@ -560,19 +351,25 @@ document.getElementById('edit-save').addEventListener('click', function() {
   if (!editingId) return;
   var text = $editInput.value.trim();
   if (!text) { closeEdit(); return; }
-  if (editingId === '__new__') { closeEdit(); addItem(text); return; }
+  if (editingId === '__new__') {
+    closeEdit();
+    addItem(text);
+    return;
+  }
   var items = loadItems(currentList);
   for (var i = 0; i < items.length; i++) {
     if (items[i].id === editingId) { items[i].text = text; break; }
   }
   saveItems(items, currentList);
-  closeEdit(); render();
+  closeEdit();
+  render();
 });
+
 document.getElementById('edit-cancel').addEventListener('click', closeEdit);
 
-// ── Status ────────────────────────────────────────────────────────────────
+// ── Status ───────────────────────────────────────────────────────────────
 var statusTimer = null;
-var DEFAULT_STATUS = 'Halten ▸ sprechen · Enter ▸ abhaken';
+var DEFAULT_STATUS = 'Leertaste halten zum Aufnehmen';
 function setStatus(msg, cls) {
   if (statusTimer) clearTimeout(statusTimer);
   var el = document.getElementById('status');
@@ -582,7 +379,7 @@ function resetStatus() {
   statusTimer = setTimeout(function() { setStatus(DEFAULT_STATUS, ''); }, 2000);
 }
 
-// ── Transcript normalisation ───────────────────────────────────────────────
+// ── Transcript normalisation ─────────────────────────────────────────────
 var ORDINALS = [
   ['thirty first','31st'],['thirty second','32nd'],
   ['twenty ninth','29th'],['twenty eighth','28th'],['twenty seventh','27th'],
@@ -596,49 +393,56 @@ var ORDINALS = [
   ['third','3rd'],['second','2nd'],['first','1st'],['thirtieth','30th']
 ];
 var MONTH_RE = 'january|february|march|april|may|june|july|august|september|october|november|december';
+
 function normalizeTranscript(text) {
   ORDINALS.forEach(function(pair) {
     text = text.replace(new RegExp('\\b' + pair[0] + '\\b', 'gi'), pair[1]);
   });
-  text = text.replace(new RegExp('(\\d+(?:st|nd|rd|th))\\s+of\\s+(' + MONTH_RE + ')', 'gi'), '$1 $2');
+  text = text.replace(
+    new RegExp('(\\d+(?:st|nd|rd|th))\\s+of\\s+(' + MONTH_RE + ')', 'gi'),
+    '$1 $2'
+  );
   return text;
 }
 
-// ── Add Item ───────────────────────────────────────────────────────────────
+// ── Add Item ─────────────────────────────────────────────────────────────
 function addItem(text) {
   text = normalizeTranscript((text || '').trim()).replace(/[.!?,]+$/, '');
   if (!text) { setStatus('Nichts gehört — nochmal', ''); resetStatus(); return; }
   text = text.charAt(0).toUpperCase() + text.slice(1);
   var items = loadItems(currentList);
   items.unshift({ id: Date.now().toString(), text: text, checked: false, checkedAt: null });
-  scrollOffset = 0; selectedIndex = 0;
+  scrollOffset = 0;
   saveItems(items, currentList);
   render();
-  setStatus('✓ ' + text, '');
+  setStatus('\u2713 ' + text, '');
   resetStatus();
 }
 
-// ── Lists ──────────────────────────────────────────────────────────────────
+// ── Cycle list ───────────────────────────────────────────────────────────
 function cycleList() {
   currentList = (currentList + 1) % LISTS.length;
-  scrollOffset = 0; selectedIndex = 0;
+  scrollOffset = 0;
   render();
   setStatus(LISTS[currentList].label, 'cycling');
   resetStatus();
 }
+
 function setList(idx) {
   if (idx < 0 || idx >= LISTS.length || idx === currentList) return;
-  currentList = idx; scrollOffset = 0; selectedIndex = 0;
+  currentList = idx;
+  scrollOffset = 0;
   render();
   setStatus(LISTS[currentList].label, 'cycling');
   resetStatus();
 }
+
 document.getElementById('list-name').addEventListener('click', cycleList);
 document.querySelectorAll('.dot').forEach(function(d) {
   d.addEventListener('click', function() { setList(parseInt(d.dataset.i)); });
 });
 
-// ── Voice via R1 CreationVoiceHandler ──────────────────────────────────────
+// ── Voice via R1 CreationVoiceHandler (falls vorhanden) ──────────────────
 window.onPluginMessage = function(data) {
   if (data.type !== 'sttEnded') return;
   isListening = false;
@@ -647,104 +451,113 @@ window.onPluginMessage = function(data) {
   else { setStatus('Nichts gehört — nochmal', ''); resetStatus(); }
 };
 
-// ── Voice via Web Speech API (Browser-Fallback) ────────────────────────────
+// ── Voice via Web Speech API (Browser-Fallback) ──────────────────────────
 var SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-var recognition = null, recognitionStopping = false;
+var recognition = null;
+var recognitionStopping = false;
 if (SpeechRec) {
   recognition = new SpeechRec();
-  recognition.continuous = false; recognition.interimResults = false;
+  recognition.continuous = false;
+  recognition.interimResults = false;
   recognition.lang = navigator.language || 'de-DE';
   recognition.onresult = function(ev) {
     var transcript = '';
-    for (var i = 0; i < ev.results.length; i++) transcript += ev.results[i][0].transcript;
+    for (var i = 0; i < ev.results.length; i++) {
+      transcript += ev.results[i][0].transcript;
+    }
     transcript = transcript.trim();
     if (transcript) addItem(transcript);
     else { setStatus('Nichts gehört — nochmal', ''); resetStatus(); }
   };
   recognition.onerror = function(ev) {
     isListening = false;
-    if (ev.error === 'not-allowed' || ev.error === 'service-not-allowed') setStatus('Mikrofon blockiert', '');
-    else if (ev.error !== 'no-speech' && ev.error !== 'aborted') setStatus('Fehler: ' + ev.error, '');
+    if (ev.error === 'not-allowed' || ev.error === 'service-not-allowed') {
+      setStatus('Mikrofon blockiert', '');
+    } else if (ev.error !== 'no-speech' && ev.error !== 'aborted') {
+      setStatus('Fehler: ' + ev.error, '');
+    }
     resetStatus();
   };
-  recognition.onend = function() { isListening = false; recognitionStopping = false; };
+  recognition.onend = function() {
+    isListening = false;
+    recognitionStopping = false;
+  };
 }
 
 function startListening() {
   if (isListening || $editScreen.classList.contains('visible')) return;
   isListening = true;
   setStatus('Höre zu… loslassen zum Hinzufügen', 'listening');
-  if (typeof CreationVoiceHandler !== 'undefined') { CreationVoiceHandler.postMessage('start'); return; }
-  if (recognition) { try { recognition.start(); } catch(e) {} }
-  else { setStatus('Sprache n/a — N für neu', ''); isListening = false; resetStatus(); }
+  if (typeof CreationVoiceHandler !== 'undefined') {
+    CreationVoiceHandler.postMessage('start');
+    return;
+  }
+  if (recognition) {
+    try { recognition.start(); }
+    catch(e) { /* already started */ }
+  } else {
+    setStatus('Sprache nicht verfügbar — Enter drücken', '');
+    isListening = false;
+    resetStatus();
+  }
 }
 function stopListening() {
   if (!isListening) return;
-  if (typeof CreationVoiceHandler !== 'undefined') { CreationVoiceHandler.postMessage('stop'); return; }
-  if (recognition && !recognitionStopping) { recognitionStopping = true; try { recognition.stop(); } catch(e) {} }
+  if (typeof CreationVoiceHandler !== 'undefined') {
+    CreationVoiceHandler.postMessage('stop');
+    return;
+  }
+  if (recognition && !recognitionStopping) {
+    recognitionStopping = true;
+    try { recognition.stop(); } catch(e) {}
+  }
 }
 
-// ── R1 hardware events (Original-Kompatibilität) ──────────────────────────
+// ── R1 Events (für Original-Hardware-Kompatibilität) ─────────────────────
 window.addEventListener('longPressStart', startListening);
 window.addEventListener('longPressEnd',   stopListening);
 window.addEventListener('sideClick', function() {
   if (isListening || $editScreen.classList.contains('visible')) return;
   cycleList();
 });
-window.addEventListener('scrollUp',   function() { if (!$editScreen.classList.contains('visible')) moveSelection(-1); });
-window.addEventListener('scrollDown', function() { if (!$editScreen.classList.contains('visible')) moveSelection(1); });
-
-// ── On-screen button (Taste): tap = abhaken, halten = sprechen ────────────
-var $btn = document.getElementById('btn');
-var btnHoldTimer = null, btnDidHold = false;
-$btn.addEventListener('pointerdown', function(e) {
-  e.preventDefault();
-  if ($editScreen.classList.contains('visible')) return;
-  btnDidHold = false; $btn.classList.add('held');
-  btnHoldTimer = setTimeout(function() { btnDidHold = true; window.dispatchEvent(new Event('longPressStart')); }, 250);
+window.addEventListener('scrollUp', function() {
+  if (scrollOffset > 0) { scrollOffset--; render(); }
 });
-function btnRelease() {
-  clearTimeout(btnHoldTimer); $btn.classList.remove('held');
-  if (btnDidHold) window.dispatchEvent(new Event('longPressEnd'));
-  else if (!$editScreen.classList.contains('visible')) toggleSelected();
-}
-$btn.addEventListener('pointerup', btnRelease);
-$btn.addEventListener('pointerleave', function() { if (btnDidHold || isListening) btnRelease(); });
+window.addEventListener('scrollDown', function() {
+  var items = loadItems(currentList);
+  if (scrollOffset < Math.max(0, items.length - VISIBLE_ITEMS)) { scrollOffset++; render(); }
+});
 
-// Wheel graphic + list area → move selection
-function wheelMove(e) {
-  if ($editScreen.classList.contains('visible')) return;
-  e.preventDefault();
-  if (e.deltaY < 0) moveSelection(-1); else if (e.deltaY > 0) moveSelection(1);
-}
-document.getElementById('wheel').addEventListener('wheel', wheelMove, { passive: false });
-document.getElementById('list-container').addEventListener('wheel', wheelMove, { passive: false });
-
-// ── Keyboard ──────────────────────────────────────────────────────────────
+// ── Tastatur ─────────────────────────────────────────────────────────────
 document.addEventListener('keydown', function(e) {
+  // Im Edit-Screen: Esc schließt, Strg/Cmd+Enter speichert
   if ($editScreen.classList.contains('visible')) {
     if (e.key === 'Escape') { e.preventDefault(); closeEdit(); }
-    if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); document.getElementById('edit-save').click(); }
+    if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+      e.preventDefault();
+      document.getElementById('edit-save').click();
+    }
     return;
   }
-  switch (e.key) {
-    case ' ':        if (!e.repeat) { e.preventDefault(); window.dispatchEvent(new Event('longPressStart')); } break;
-    case 'Enter':    e.preventDefault(); toggleSelected(); break;
-    case 'Escape':   window.dispatchEvent(new Event('sideClick')); break;
-    case 'ArrowUp':  e.preventDefault(); moveSelection(-1); break;
-    case 'ArrowDown':e.preventDefault(); moveSelection(1); break;
-    case 'n': case 'N': e.preventDefault(); openNewItem(); break;
-    case 'e': case 'E': e.preventDefault(); editSelected(); break;
-    case 't': case 'T': e.preventDefault(); cycleTheme(); break;
-    case 'Delete': case 'Backspace': e.preventDefault(); deleteSelected(); break;
-  }
+  if (e.key === ' ' && !e.repeat) { e.preventDefault(); window.dispatchEvent(new Event('longPressStart')); }
+  if (e.key === 'Escape') window.dispatchEvent(new Event('sideClick'));
+  if (e.key === 'ArrowUp') { e.preventDefault(); window.dispatchEvent(new Event('scrollUp')); }
+  if (e.key === 'ArrowDown') { e.preventDefault(); window.dispatchEvent(new Event('scrollDown')); }
+  if (e.key === 'Enter' && !e.repeat) { e.preventDefault(); openNewItem(); }
 });
 document.addEventListener('keyup', function(e) {
   if ($editScreen.classList.contains('visible')) return;
   if (e.key === ' ') window.dispatchEvent(new Event('longPressEnd'));
 });
 
-// ── Auto-purge ──────────────────────────────────────────────────────────────
+// Mausrad → scrollen
+document.getElementById('list-container').addEventListener('wheel', function(e) {
+  e.preventDefault();
+  if (e.deltaY < 0) window.dispatchEvent(new Event('scrollUp'));
+  else if (e.deltaY > 0) window.dispatchEvent(new Event('scrollDown'));
+}, { passive: false });
+
+// ── Auto-purge ───────────────────────────────────────────────────────────
 setInterval(function() {
   var changed = false;
   for (var i = 0; i < LISTS.length; i++) {
@@ -755,13 +568,12 @@ setInterval(function() {
   if (changed) render();
 }, 5 * 60 * 1000);
 
-// ── Init ────────────────────────────────────────────────────────────────────
+// ── Init ─────────────────────────────────────────────────────────────────
 for (var i = 0; i < LISTS.length; i++) {
   var loaded = loadItems(i);
   var purged = purgeExpired(loaded);
   if (purged.length !== loaded.length) saveItems(purged, i);
 }
-applyTheme(loadTheme());
 render();
 </script>
 </body>
