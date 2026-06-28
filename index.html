@@ -8,12 +8,26 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-/* Design-System: "Monospace misst, Grotesk spricht" — Mono nur für Werte/Labels */
-:root { --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', monospace; }
+/* ── BRAUN / Dieter Rams Design-System · Variante "Papier" ──────────────────
+   Mono misst (IBM Plex Mono), Grotesk spricht (Helvetica).
+   Akzent = BRAUN-Orange, nur für aktive/markierte Elemente. */
+:root {
+  --mono:   'IBM Plex Mono', ui-monospace, 'SF Mono', monospace;
+  --beton:  #D7D4CC;   /* Seite */
+  --paper:  #E7E4DE;   /* Display */
+  --surface:#F0EEE9;   /* Eingabeflächen */
+  --ink:    #1B1A17;   /* Text */
+  --muted:  #8A867E;   /* Sekundär */
+  --line:   #C7C3BA;   /* Haarlinie */
+  --accent: #D75A1E;   /* BRAUN-Orange */
+  --acf:    #FFFFFF;   /* Auf Akzent */
+}
+::selection { background: var(--accent); color: #fff; }
 html, body {
   width: 100%; min-height: 100vh;
-  background: #000; color: #fff;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--beton); color: var(--ink);
+  font-family: 'Helvetica Neue', Helvetica, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
   -webkit-user-select: none; user-select: none;
 }
 body {
@@ -25,24 +39,23 @@ body {
 /* The R1-sized device frame (240x282). Faithfully recreated. */
 #device {
   width: 240px; height: 282px;
-  background: #0e0e10; color: #fff;
+  background: var(--paper); color: var(--ink);
   display: flex; flex-direction: column;
   position: relative; overflow: hidden;
-  border-radius: 14px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.6),
-              0 0 0 6px #1a1a1c,
-              0 0 0 7px rgba(254,80,0,0.2);
+  border-radius: 6px;
+  border: 1px solid rgba(0,0,0,0.18);
+  box-shadow: 0 2px 0 rgba(0,0,0,0.06), 0 16px 44px rgba(27,26,23,0.18);
 }
 
 #header {
   padding: 7px 12px 6px;
   display: flex; align-items: center; justify-content: space-between;
-  border-bottom: 1px solid rgba(254,80,0,0.25);
+  border-bottom: 1px solid var(--line);
   flex-shrink: 0;
 }
 #list-name {
   font-family: var(--mono);
-  font-size: 11px; font-weight: 600; color: #FE5000;
+  font-size: 11px; font-weight: 600; color: var(--accent);
   letter-spacing: 1.5px; text-transform: uppercase;
   min-width: 56px;
   cursor: pointer;
@@ -50,95 +63,95 @@ body {
 #dots { display: flex; gap: 5px; align-items: center; }
 .dot {
   width: 6px; height: 6px; border-radius: 1px;
-  background: rgba(255,255,255,0.15);
+  background: var(--line);
   transition: background 0.2s, transform 0.2s;
   cursor: pointer;
 }
-.dot.active { background: #FE5000; transform: scale(1.2); }
-#item-count { font-family: var(--mono); font-size: 10px; letter-spacing: 0.04em; color: rgba(255,255,255,0.3); min-width: 36px; text-align: right; }
+.dot.active { background: var(--accent); transform: scale(1.2); }
+#item-count { font-family: var(--mono); font-size: 10px; letter-spacing: 0.04em; color: var(--muted); min-width: 36px; text-align: right; }
 
 #status {
   font-family: var(--mono);
-  padding: 0 12px; font-size: 10px; letter-spacing: 0.02em; color: rgba(255,255,255,0.35);
+  padding: 0 12px; font-size: 10px; letter-spacing: 0.02em; color: var(--muted);
   text-align: center; flex-shrink: 0; height: 22px;
   display: flex; align-items: center; justify-content: center;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-#status.listening { color: #FE5000; animation: pulse 0.8s ease infinite; }
-#status.cycling { color: rgba(255,255,255,0.6); }
+#status.listening { color: var(--accent); animation: pulse 0.8s ease infinite; }
+#status.cycling { color: var(--ink); }
 @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
 
 #list-container { flex: 1; overflow: hidden; position: relative; }
 #list { position: absolute; top: 0; left: 0; right: 0; transition: transform 0.12s ease; }
 
-.item { display: flex; align-items: center; padding: 0 12px 0 10px; height: 32px; gap: 10px; }
-.item.checked { opacity: 0.4; }
+.item { display: flex; align-items: center; padding: 0 12px 0 10px; height: 32px; gap: 10px; border-bottom: 1px solid var(--line); }
+.item.checked { opacity: 0.55; }
 
 .checkbox {
-  width: 18px; height: 18px; border: 2px solid #FE5000; border-radius: 3px;
+  width: 18px; height: 18px; border: 2px solid var(--accent); border-radius: 2px;
   flex-shrink: 0; display: flex; align-items: center; justify-content: center;
   cursor: pointer; transition: background 0.12s; position: relative;
 }
-.item.checked .checkbox { background: #FE5000; }
+.item.checked .checkbox { background: var(--accent); }
 .checkbox::after {
   content: ''; display: none; width: 10px; height: 6px;
-  border-left: 2px solid #0e0e10; border-bottom: 2px solid #0e0e10;
+  border-left: 2px solid var(--paper); border-bottom: 2px solid var(--paper);
   transform: rotate(-45deg) translateY(-1px);
 }
 .item.checked .checkbox::after { display: block; }
 .item-text {
-  font-size: 13px; color: #fff; flex: 1;
+  font-size: 13px; color: var(--ink); flex: 1;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   cursor: pointer;
 }
-.item.checked .item-text { text-decoration: line-through; color: rgba(255,255,255,0.4); }
+.item.checked .item-text { text-decoration: line-through; color: var(--muted); }
 
 .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 220px; gap: 10px; }
-.empty-text { font-size: 11px; color: rgba(255,255,255,0.2); text-align: center; line-height: 1.6; }
+.empty-text { font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); text-align: center; line-height: 1.7; }
 
-#scrollbar { position: absolute; right: 3px; top: 4px; bottom: 4px; width: 3px; background: rgba(255,255,255,0.07); border-radius: 2px; display: none; }
-#scroll-thumb { position: absolute; left: 0; width: 3px; background: #FE5000; border-radius: 2px; opacity: 0.7; }
+#scrollbar { position: absolute; right: 3px; top: 4px; bottom: 4px; width: 3px; background: var(--line); border-radius: 1px; display: none; }
+#scroll-thumb { position: absolute; left: 0; width: 3px; background: var(--accent); border-radius: 1px; opacity: 0.9; }
 
 /* Edit screen */
 #edit-screen {
   display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-  background: #0e0e10; flex-direction: column; padding: 14px; z-index: 150;
+  background: var(--paper); flex-direction: column; padding: 14px; z-index: 150;
 }
 #edit-screen.visible { display: flex; }
 #edit-header {
   font-family: var(--mono);
-  font-size: 11px; font-weight: 600; color: #FE5000;
+  font-size: 11px; font-weight: 600; color: var(--accent);
   text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; padding: 2px 0;
 }
 #edit-input {
-  flex: 1; background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.15); border-radius: 6px;
-  color: #fff; font-size: 13px; font-family: inherit;
+  flex: 1; background: var(--surface);
+  border: 1px solid var(--line); border-radius: 2px;
+  color: var(--ink); font-size: 13px; font-family: inherit;
   padding: 8px; resize: none; outline: none; line-height: 1.5;
 }
-#edit-input:focus { border-color: #FE5000; }
+#edit-input:focus { border-color: var(--accent); }
 #edit-actions { display: flex; gap: 8px; margin-top: 10px; }
 #edit-actions button {
-  flex: 1; min-height: 36px; border: none; border-radius: 6px;
+  flex: 1; min-height: 36px; border: none; border-radius: 2px;
   font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
 #edit-actions button:active { opacity: 0.7; }
-#edit-cancel { background: rgba(255,255,255,0.1); color: #fff; }
-#edit-save { background: #FE5000; color: #0e0e10; }
+#edit-cancel { background: transparent; color: var(--ink); border: 1px solid var(--ink); font-weight: 500; }
+#edit-save { background: var(--accent); color: var(--acf); }
 
 /* Hilfe-Text unter dem Gerät */
 #help {
   margin-top: 18px; max-width: 320px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  font-size: 11px; color: rgba(255,255,255,0.45);
-  line-height: 1.6; text-align: center;
+  font-family: var(--mono);
+  font-size: 10px; letter-spacing: 0.02em; color: var(--muted);
+  line-height: 1.7; text-align: center;
 }
-#help b { color: #FE5000; font-weight: 600; }
+#help b { color: var(--accent); font-weight: 600; }
 #help kbd {
-  display: inline-block; padding: 1px 6px; border-radius: 4px;
-  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
-  font-family: ui-monospace, monospace; font-size: 10px; color: #fff;
+  display: inline-block; padding: 1px 6px; border-radius: 2px;
+  background: #E9E6E0; border: 1px solid var(--line);
+  font-family: var(--mono); font-size: 10px; color: var(--ink);
 }
 </style>
 </head>
